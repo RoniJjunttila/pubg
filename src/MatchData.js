@@ -3,13 +3,18 @@ import React, { useEffect, useState } from "react";
 const PUBG_API_KEY =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZTZhMjM4MC01YjkwLTAxM2ItOTg2Ny0wMzFhMzJiYjRkNTMiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNjcwNzY5OTUxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Im5pZ2hib3Qtc3RhdHMifQ.PubdgdyNbB2i6GZfpNQO8zflo050se4cNvpOGM2VxIE "; // Insert your PUBG API key here
 
-const PlayerInfo = () => {
+const MatchData = () => {
   const [playerData, setPlayerData] = useState(null);
   const [matchesArray, setMatchesArray] = useState([]);
   const [matchData, setMatchData] = useState(null);
   const [selectedGame, setSeletedGame] = useState(0);
   const [selectedPlayer, setSeletedPlayer] = useState(0);
-  const playerNames = ["E1_Duderino","MunatonEpaemies","HlGHLANDER","bold_moves_bob"];
+  const playerNames = [
+    "E1_Duderino",
+    "MunatonEpaemies",
+    "HlGHLANDER",
+    "bold_moves_bob",
+  ];
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -30,10 +35,10 @@ const PlayerInfo = () => {
       }
       setMatchesArray([...matches]);
     };
-  
+
     fetchPlayerData();
   }, [selectedPlayer]);
-  
+
   useEffect(() => {
     const fetchMatchData = async () => {
       if (matchesArray.length > 0) {
@@ -55,38 +60,33 @@ const PlayerInfo = () => {
         }
       }
     };
-  
+
     fetchMatchData();
   }, [matchesArray, selectedGame]);
-  
+
   return (
     <div>
       <div>
-      <label>Games:</label>
-      <select onChange={(event) => setSeletedGame(event.target.value)}>
-        {matchesArray.map((key, id) => (
-          <option key={id} value={id}>
-            Game {key}
-          </option>
-        ))}
-      </select>
+        <label>Games:</label>
+        <select onChange={(event) => setSeletedGame(event.target.value)}>
+          {matchesArray.map((key, id) => (
+            <option key={id} value={id}>
+              Game {key}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
-      <label>Player: </label>
-<select onChange={(event) => setSeletedPlayer(event.target.value)}>
-  {playerNames.map((key, id) => (
-    <option key={key} value={id}>
-      {key}
-    </option>
-  ))}
-</select>
-
-
+        <label>Player: </label>
+        <select onChange={(event) => setSeletedPlayer(event.target.value)}>
+          {playerNames.map((key, id) => (
+            <option key={key} value={id}>
+              {key}
+            </option>
+          ))}
+        </select>
       </div>
-<div>
-  <button>Season data</button>
-</div>
-  
+
       {matchData ? (
         <div>
           <table>
@@ -110,7 +110,8 @@ const PlayerInfo = () => {
                   })
                   .map((participant, index, participants) => {
                     const stats = participant.attributes.stats || {};
-                    const { name, kills, assists, damageDealt, winPlace } = stats;
+                    const { name, kills, assists, damageDealt, winPlace } =
+                      stats;
                     const isFirstParticipant = index === 0;
                     const prevWinPlace = isFirstParticipant
                       ? null
@@ -150,7 +151,7 @@ const PlayerInfo = () => {
     </div>
   );
 };
-export default PlayerInfo;
+export default MatchData;
 
 /* return (
   <div>

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 const apiKey =
   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZTZhMjM4MC01YjkwLTAxM2ItOTg2Ny0wMzFhMzJiYjRkNTMiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNjcwNzY5OTUxLCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Im5pZ2hib3Qtc3RhdHMifQ.PubdgdyNbB2i6GZfpNQO8zflo050se4cNvpOGM2VxIE "; // Insert your PUBG API key here
-const playerNames = ["E1_Duderino"];
 const seasonId = "division.bro.official.pc-2018-26";
+
 
 //Season data
 
@@ -12,8 +12,8 @@ const headers = {
   Authorization: "Bearer " + apiKey,
 };
 
-const App = () => {
-  
+const SeasonData = () => {
+const playerNames = ["E1_Duderino", "MunatonEpaemies","HlGHLANDER","bold_moves_bob"]; 
 const [name, setName] = useState("");
 
   async function fetchData(url) {
@@ -30,7 +30,7 @@ const [name, setName] = useState("");
 
   // Function to calculate statistics
   function calculateStats(playerData) {
-    console.log(playerData.attributes.gameModeStats["squad-fpp"]);
+    //console.log(playerData.attributes.gameModeStats["squad-fpp"]);
     const stats = {
       assists: playerData.attributes.gameModeStats["squad-fpp"].assists,
       boosts: playerData.attributes.gameModeStats["squad-fpp"].boosts,
@@ -125,6 +125,7 @@ const [name, setName] = useState("");
       const calculatedStats = playerStatsData.map((playerData) => {
         const stats = calculateStats(playerData);
         // Return the relevant data for your React component state
+        console.log(playerData)
         return {
           playerName: playerData.attributes.name,
           stats: stats,
@@ -140,23 +141,24 @@ const [name, setName] = useState("");
 
   return (
     <div>
-      <h2>PUBG {name} Statistics</h2>
-      <ul>
-        {playerStats.map((player, index) => (
-        
-          <li key={index}>
-            {player.playerName}
-            <ul>
-              {Object.entries(player.stats).map(([statName, statValue]) => (
-                <li key={statName}>
-                  {statName}: {statValue}
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <h2>Season data</h2>
+    <ul>
+      {playerStats.map((player, index) => (
+        <li key={index} style={{ border: "1px solid #ccc", padding: "10px" }}>
+          <ul>
+            <li style={{ fontWeight: "bold", fontSize: "1.2em" }}>
+              {playerNames[index]}
+            </li>
+            {Object.entries(player.stats).map(([statName, statValue]) => (
+              <li key={statName}>
+                {statName}: {statValue}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 };
-export default App;
+export default SeasonData;
